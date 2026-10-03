@@ -10,20 +10,14 @@ on:
   workflow_dispatch:
     inputs:
       CONFIG:
-        default: 'MEDIATEK-WIFI-YES'
+        default: 'X86'
         required: true
         type: choice
         options:
-          - IPQ53XX-WIFI-NO
           - IPQ60XX-WIFI-NO
           - IPQ60XX-WIFI-YES
-          - IPQ807X-WIFI-NO
           - IPQ807X-WIFI-YES
-          - IPQ95XX-WIFI-YES
-          - MEDIATEK-WIFI-NO
-          - MEDIATEK-WIFI-YES
           - ROCKCHIP
-          - TEST
           - X86
       SOURCE:
         default: 'VIKINGYFY/immortalwrt'
@@ -33,8 +27,8 @@ on:
           - VIKINGYFY/immortalwrt
           - immortalwrt/immortalwrt
       BRANCH:
-        default: 'owrt'
-        required: true
+        description: '源码分支，留空时高通用 main，X86/ROCKCHIP 用 owrt。'
+        required: false
         type: string
       PACKAGE:
         required: false
@@ -58,7 +52,7 @@ jobs:
       #编译配置
       WRT_CONFIG: ${{inputs.CONFIG}}
       #默认主题
-      WRT_THEME: aurora
+      WRT_THEME: argon
       #默认主机名
       WRT_NAME: OWRT
       #默认WIFI名称
@@ -72,7 +66,7 @@ jobs:
       #源码链接
       WRT_REPO: https://github.com/${{inputs.SOURCE}}.git
       #源码分支
-      WRT_BRANCH: ${{inputs.BRANCH}}
+      WRT_BRANCH: ${{inputs.BRANCH || (startsWith(inputs.CONFIG, 'IPQ') && 'main' || 'owrt')}}
       #源码名称
       WRT_SOURCE: ${{inputs.SOURCE}}
       #插件调整

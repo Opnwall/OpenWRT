@@ -48,7 +48,7 @@ https://drive.wrt.moe/uboot/mediatek
 
 固件信息里的时间为编译开始的时间，方便核对上游源码提交时间。
 
-MEDIATEK系列、QUALCOMMAX系列、ROCKCHIP系列、X86系列。
+QUALCOMMAX系列、ROCKCHIP系列、X86系列。
 
 # 目录简要说明
 
@@ -60,3 +60,23 @@ Config——自定义配置
 
 #
 [![Stargazers over time](https://starchart.cc/VIKINGYFY/OpenWRT-CI.svg?variant=adaptive)](https://starchart.cc/VIKINGYFY/OpenWRT-CI)
+
+## 当前编译配置
+
+仅编译以下设备：
+
+| 配置 | 设备 | 源码分支 |
+| --- | --- | --- |
+| X86 | x86_64 | owrt |
+| ROCKCHIP | NanoPi R4SE、R6S | owrt |
+| IPQ60XX-WIFI-NO | 京东无线宝太乙（RE-CS-07，有线） | main |
+| IPQ60XX-WIFI-YES | 京东无线宝 AX1800 PRO（RE-SS-01）、GL-AX1800、NN6000 v2 | main |
+| IPQ807X-WIFI-YES | QNAP 301W（带 Wi-Fi） | main |
+
+默认插件：SSR Plus+（包含 SSR 客户端）、iStore、EasyTier、UPnP、MosDNS、Lucky。
+默认主题：Argon，登录壁纸从 Bing 获取。
+默认登录地址：`192.168.10.1`，用户名：`root`，密码为空。
+这些默认值适用于首次启动或恢复出厂设置；保留配置升级时沿用现有配置。
+
+`OWRT-ALL` 编译 X86 和 ROCKCHIP，`QCA-ALL` 编译上述高通设备。
+`WRT-TEST` 可选择上述配置，默认只生成配置文件。

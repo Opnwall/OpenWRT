@@ -31,6 +31,17 @@ sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" $CFG_FILE
 #修改默认主机名
 sed -i "s/hostname='.*'/hostname='$WRT_NAME'/g" $CFG_FILE
 
+#首次启动最后应用默认登录设置，覆盖上游初始化脚本可能设置的密码。
+mkdir -p ./files/etc/uci-defaults
+cat > ./files/etc/uci-defaults/zzzz-local-login <<'EOF'
+#!/bin/sh
+uci set argon.@global[0].online_wallpaper='bing'
+uci commit argon
+sed -i 's/^root:[^:]*:/root::/' /etc/shadow
+exit 0
+EOF
+chmod +x ./files/etc/uci-defaults/zzzz-local-login
+
 #配置文件修改
 echo "CONFIG_PACKAGE_luci=y" >> ./.config
 echo "CONFIG_LUCI_LANG_zh_Hans=y" >> ./.config
